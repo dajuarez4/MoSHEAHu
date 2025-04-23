@@ -1,3 +1,5 @@
+import numpy as np
+
 simulation_path = './simulations'
 potential_path  = './potentials/'
 executable_path = './executables/'
@@ -14,4 +16,8 @@ n_latti_par = 1
 n_sim = 2
 lattice_parameters = [np.round(initial_lattice + ii*(0.01), 2) for ii in range(n_latti_par)]
 simulation_paths = [simulation_path + f'{sim+1}/' for sim in range(n_sim)]
-
+input_file_path = './input_files/'
+input_files = ['HfNbTaTiZr.in']
+energies_1000 = []
+energies_2000 = []
+ids = []

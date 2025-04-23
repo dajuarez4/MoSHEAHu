@@ -1,0 +1,27 @@
+
+--- Warren-Cowley parameters (alpha_ij) ---
+Alpha_Hf-Hf = -0.00995223
+Alpha_Hf-Nb = 0.00444533
+Alpha_Hf-Ta = -0.00769639
+Alpha_Hf-Ti = -0.00238854
+Alpha_Hf-Zr = 0.0155918
+Alpha_Nb-Hf = -0.00371921
+Alpha_Nb-Nb = 0.00183285
+Alpha_Nb-Ta = 0.00263556
+Alpha_Nb-Ti = 0.00524436
+Alpha_Nb-Zr = -0.00599355
+Alpha_Ta-Hf = -0.0145625
+Alpha_Ta-Nb = 0.00400802
+Alpha_Ta-Ta = 0.00173681
+Alpha_Ta-Ti = 0.0169673
+Alpha_Ta-Zr = -0.00814963
+Alpha_Ti-Hf = -0.010528
+Alpha_Ti-Nb = 0.0053242
+Alpha_Ti-Ta = 0.0156917
+Alpha_Ti-Ti = 0.00391958
+Alpha_Ti-Zr = -0.0144074
+Alpha_Zr-Hf = 0.00441528
+Alpha_Zr-Nb = -0.00913922
+Alpha_Zr-Ta = -0.0126956
+Alpha_Zr-Ti = -0.0176611
+Alpha_Zr-Zr = 0.0350807

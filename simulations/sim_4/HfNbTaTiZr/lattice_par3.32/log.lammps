@@ -1,0 +1,305 @@
+LAMMPS (29 Aug 2024)
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/comm.cpp:98)
+  using 1 OpenMP thread(s) per MPI task
+units           metal
+dimension       3
+boundary        p p p   # Start with periodic in all directions
+atom_style      atomic
+read_data       "HfNbTaTiZr.data"
+Reading data file ...
+  orthogonal box = (0 0 0) to (66.4 66.4 66.4)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  16000 atoms
+  read_data CPU = 0.030 seconds
+
+# -------------------- INTERATOMIC POTENTIAL -------------------------
+pair_style      meam
+pair_coeff      * * library_HfNbTaTiZr.meam Hf Nb Ta Ti Zr HfNbTaTiZr.meam Hf Nb Ta Ti Zr
+
+# -------------------- MINIMIZATION -------------------------
+reset_timestep  0
+timestep        0.005
+
+# Energy minimization
+minimize        1e-6 1e-8 10000 100000
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
+Your simulation uses code contributions which should be cited:
+
+- Type Label Framework: https://doi.org/10.1021/acs.jpcb.3c08419
+
+@Article{Gissinger24,
+ author = {Jacob R. Gissinger, Ilia Nikiforov, Yaser Afshar, Brendon Waters, Moon-ki Choi, Daniel S. Karls, Alexander Stukowski, Wonpil Im, Hendrik Heinz, Axel Kohlmeyer, and Ellad B. Tadmor},
+ title = {Type Label Framework for Bonded Force Fields in LAMMPS},
+ journal = {J. Phys. Chem. B},
+ year =    2024,
+ volume =  128,
+ number =  13,
+ pages =   {3282–-3297}
+}
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7
+  ghost atom cutoff = 7
+  binsize = 3.5, bins = 19 19 19
+  2 neighbor lists, perpetual/occasional/extra = 2 0 0
+  (1) pair meam, perpetual
+      attributes: full, newton on
+      pair build: full/bin/atomonly
+      stencil: full/bin/3d
+      bin: standard
+  (2) pair meam, perpetual, half/full from (1)
+      attributes: half, newton on
+      pair build: halffull/newton
+      stencil: none
+      bin: none
+Per MPI rank memory allocation (min/avg/max) = 38.32 | 38.32 | 38.32 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press     
+         0   0             -106776.66      0             -106776.66      122033.33    
+        14   0             -107147.55      0             -107147.55      118848.06    
+Loop time of 1.87845 on 1 procs for 14 steps with 16000 atoms
+
+99.0% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = energy tolerance
+  Energy initial, next-to-last, final = 
+     -106776.661326548  -107147.445958754  -107147.549524027
+  Force two-norm initial, final = 90.310975 2.4332419
+  Force max component initial, final = 1.8549672 0.71305148
+  Final line search alpha, max atom move = 0.36868973 0.26289475
+  Iterations, force evaluations = 14 26
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 1.8717     | 1.8717     | 1.8717     |   0.0 | 99.64
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.0010647  | 0.0010647  | 0.0010647  |   0.0 |  0.06
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 0.005633   |            |       |  0.30
+
+Nlocal:          16000 ave       16000 max       16000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:          13449 ave       13449 max       13449 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:         512000 ave      512000 max      512000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:    1.024e+06 ave   1.024e+06 max   1.024e+06 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 1024000
+Ave neighs/atom = 64
+Neighbor list builds = 0
+Dangerous builds = 0
+
+dump            min all custom 10000 HEA_min.txt id x y z
+dump_modify     min pbc yes sort id
+
+# -------------------- INITIALIZATION -------------------------
+velocity        all create 1500.0 12345 mom yes rot no
+
+# -------------------- EQUILIBRATION: NVT -------------------------
+reset_timestep  0
+fix             nvt_eq all nvt temp 1500.0 1500.0 0.1
+thermo          200
+run             2000
+Per MPI rank memory allocation (min/avg/max) = 37.69 | 37.69 | 37.69 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press     
+         0   1500          -107147.55      0             -104045.5       130165.91    
+       200   1477.8136     -103554.94      0             -100498.77      158156.85    
+       400   1506.1673     -103433.77      0             -100318.97      159505.72    
+       600   1474.5918     -103491.58      0             -100442.08      158607.69    
+       800   1506.657      -103441.42      0             -100325.6       159212.75    
+      1000   1503.2442     -103499.47      0             -100390.71      158671.87    
+      1200   1499.6795     -103490.8       0             -100389.41      158473.11    
+      1400   1491.5697     -103515.94      0             -100431.32      158690.05    
+      1600   1497.8607     -103453.5       0             -100355.88      158569.36    
+      1800   1501.3372     -103496.98      0             -100392.16      158507.16    
+      2000   1515.0277     -103490.07      0             -100356.95      158576.39    
+Loop time of 177.45 on 1 procs for 2000 steps with 16000 atoms
+
+Performance: 4.869 ns/day, 4.929 hours/ns, 11.271 timesteps/s, 180.332 katom-step/s
+99.9% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 172.52     | 172.52     | 172.52     |   0.0 | 97.22
+Neigh   | 4.5615     | 4.5615     | 4.5615     |   0.0 |  2.57
+Comm    | 0.10226    | 0.10226    | 0.10226    |   0.0 |  0.06
+Output  | 0.00024629 | 0.00024629 | 0.00024629 |   0.0 |  0.00
+Modify  | 0.22836    | 0.22836    | 0.22836    |   0.0 |  0.13
+Other   |            | 0.04224    |            |       |  0.02
+
+Nlocal:          16000 ave       16000 max       16000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:          13255 ave       13255 max       13255 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:         553119 ave      553119 max      553119 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:  1.10624e+06 ave 1.10624e+06 max 1.10624e+06 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 1106238
+Ave neighs/atom = 69.139875
+Neighbor list builds = 169
+Dangerous builds = 0
+
+unfix           nvt_eq
+
+# -------------------- PRESSURE RELAXATION: NPT -------------------------
+# Relax pressure from 10,000 Pa (~0.1 bar) to 0 Pa
+fix             npt_relax all npt temp 1500.0 1500.0 0.1 iso 0.0001 0.0 1.0
+thermo          200
+run             2000
+Per MPI rank memory allocation (min/avg/max) = 41.72 | 41.72 | 41.72 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press          Volume    
+      2000   1515.0277     -103490.07      0             -100356.95      158576.39      292754.94    
+      2200   1511.5857     -104006.42      0             -100880.41     -326.33659      334114.79    
+      2400   1508.5335     -104037.89      0             -100918.19      220.89722      333893.37    
+      2600   1503.9332     -104026.55      0             -100916.37      157.23374      334056.33    
+      2800   1498.9934     -104011.72      0             -100911.75     -542.0772       334172.7     
+      3000   1504.5506     -104023.7       0             -100912.24      212.33823      334108.66    
+      3200   1499.0228     -104029.77      0             -100929.74      565.65361      333881.12    
+      3400   1534.9999     -104017.33      0             -100842.9      -740.94908      334392.43    
+      3600   1503.9054     -104058.79      0             -100948.66     -479.12187      334031       
+      3800   1498.5391     -104032.61      0             -100933.58     -14.896672      333935.32    
+      4000   1486.8691     -104048.55      0             -100973.66     -221.69493      334067.28    
+Loop time of 163.767 on 1 procs for 2000 steps with 16000 atoms
+
+Performance: 5.276 ns/day, 4.549 hours/ns, 12.212 timesteps/s, 195.400 katom-step/s
+99.9% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 158.52     | 158.52     | 158.52     |   0.0 | 96.80
+Neigh   | 4.6482     | 4.6482     | 4.6482     |   0.0 |  2.84
+Comm    | 0.088959   | 0.088959   | 0.088959   |   0.0 |  0.05
+Output  | 0.00021375 | 0.00021375 | 0.00021375 |   0.0 |  0.00
+Modify  | 0.46768    | 0.46768    | 0.46768    |   0.0 |  0.29
+Other   |            | 0.04336    |            |       |  0.03
+
+Nlocal:          16000 ave       16000 max       16000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:          11937 ave       11937 max       11937 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:         503602 ave      503602 max      503602 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:   1.0072e+06 ave  1.0072e+06 max  1.0072e+06 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 1007204
+Ave neighs/atom = 62.95025
+Neighbor list builds = 195
+Dangerous builds = 0
+
+unfix           npt_relax
+
+# -------------------- CHANGE BOUNDARY CONDITIONS -------------------------
+# Switch x,y to shrink-wrap
+change_box      all boundary p p s remap
+Changing box ...
+WARNING: Resetting image flags for non-periodic dimensions (src/domain.cpp:2129)
+
+# -------------------- RELAX AGAIN AT 0 Pa -------------------------
+fix             npt_zero all npt temp 1500.0 1500.0 0.1 x 0.0 0.0 1.0 y 0.0 0.0 1.0
+thermo          200
+run             2000
+Per MPI rank memory allocation (min/avg/max) = 41.7 | 41.7 | 41.7 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press          Volume    
+      4000   1486.8691     -102589.09      0             -99514.194     -3512.5393      334188.22    
+      4200   1493.6339     -102616.97      0             -99528.083      1436.3175      343967.98    
+      4400   1486.4236     -102663.06      0             -99589.088      94.517262      344824.49    
+      4600   1510.6591     -102650.73      0             -99526.641      1125.9194      342787.11    
+      4800   1497.5836     -102679.29      0             -99582.239     -77.225252      346656.6     
+      5000   1497.6387     -102687.27      0             -99590.099     -439.49334      351218.91    
+      5200   1502.3681     -102684.86      0             -99577.909     -975.2907       348190.61    
+      5400   1508.1876     -102774.23      0             -99655.25      -389.54723      344994.17    
+      5600   1482.55       -102796.53      0             -99730.564     -355.93739      347928.29    
+      5800   1487.5737     -102798.17      0             -99721.822     -575.83516      349452.59    
+      6000   1497.1386     -102850.21      0             -99754.076     -627.65773      354554.63    
+Loop time of 158.018 on 1 procs for 2000 steps with 16000 atoms
+
+Performance: 5.468 ns/day, 4.389 hours/ns, 12.657 timesteps/s, 202.509 katom-step/s
+99.9% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 152.63     | 152.63     | 152.63     |   0.0 | 96.59
+Neigh   | 4.7567     | 4.7567     | 4.7567     |   0.0 |  3.01
+Comm    | 0.063137   | 0.063137   | 0.063137   |   0.0 |  0.04
+Output  | 0.0002375  | 0.0002375  | 0.0002375  |   0.0 |  0.00
+Modify  | 0.521      | 0.521      | 0.521      |   0.0 |  0.33
+Other   |            | 0.04565    |            |       |  0.03
+
+Nlocal:          16000 ave       16000 max       16000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           7776 ave        7776 max        7776 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:         513609 ave      513609 max      513609 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:  1.02722e+06 ave 1.02722e+06 max 1.02722e+06 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 1027218
+Ave neighs/atom = 64.201125
+Neighbor list builds = 199
+Dangerous builds = 0
+
+unfix           npt_zero
+
+# -------------------- FINAL NVT: METASTABLE STRUCTURE -------------------------
+fix             final_nvt all nvt temp 1500.0 1500.0 0.1
+thermo          200
+run             500
+Per MPI rank memory allocation (min/avg/max) = 41.7 | 41.7 | 41.7 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press          Volume    
+      6000   1497.1386     -102850.21      0             -99754.076     -627.15788      354837.21    
+      6200   1512.246      -102919.51      0             -99792.14      -2013.8437      351806.56    
+      6400   1501.4329     -102958.51      0             -99853.497      1833.9902      348310.6     
+      6500   1504.9212     -102967.36      0             -99855.13       4187.074       349289.97    
+Loop time of 39.4911 on 1 procs for 500 steps with 16000 atoms
+
+Performance: 5.470 ns/day, 4.388 hours/ns, 12.661 timesteps/s, 202.577 katom-step/s
+99.9% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 38.201     | 38.201     | 38.201     |   0.0 | 96.73
+Neigh   | 1.2036     | 1.2036     | 1.2036     |   0.0 |  3.05
+Comm    | 0.018349   | 0.018349   | 0.018349   |   0.0 |  0.05
+Output  | 6.8332e-05 | 6.8332e-05 | 6.8332e-05 |   0.0 |  0.00
+Modify  | 0.057069   | 0.057069   | 0.057069   |   0.0 |  0.14
+Other   |            | 0.01108    |            |       |  0.03
+
+Nlocal:          16000 ave       16000 max       16000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           7747 ave        7747 max        7747 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:         516243 ave      516243 max      516243 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:  1.03249e+06 ave 1.03249e+06 max 1.03249e+06 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 1032486
+Ave neighs/atom = 64.530375
+Neighbor list builds = 47
+Dangerous builds = 0
+
+unfix           final_nvt
+
+# -------------------- FINAL OUTPUT -------------------------
+print "All done!"
+All done!
+Total wall time: 0:09:01
