@@ -1,0 +1,58 @@
+units           metal
+dimension       3
+boundary        p p p   
+atom_style      atomic
+read_data       "HfNbTaTiZr.data"
+
+# -------------------- INTERATOMIC POTENTIAL -------------------------
+pair_style      meam
+pair_coeff      * * library_HfNbTaTiZr.meam Hf Nb Ta Ti Zr HfNbTaTiZr.meam Hf Nb Ta Ti Zr
+
+# -------------------- MINIMIZATION -------------------------
+reset_timestep  0
+timestep        0.005
+
+# Energy minimization
+minimize        1e-6 1e-8 10000 100000
+
+dump            min all custom 10000 HEA_min.txt id x y z
+dump_modify     min pbc yes sort id
+
+# -------------------- INITIALIZATION -------------------------
+velocity        all create 1500.0 12345 mom yes rot no
+
+# -------------------- EQUILIBRATION: NVT -------------------------
+reset_timestep  0
+fix             nvt_eq all nvt temp 1500.0 1500.0 0.1
+thermo          500
+run             10000
+
+unfix           nvt_eq
+
+# -------------------- PRESSURE RELAXATION: NPT -------------------------
+# Relax pressure from 10,000 Pa (~0.1 bar) to 0 Pa
+fix             npt_relax all npt temp 1500.0 1500.0 0.1 iso 0.0001 0.0 1.0
+thermo          500
+run             10000
+
+unfix           npt_relax
+
+# -------------------- CHANGE BOUNDARY CONDITIONS -------------------------
+change_box      all boundary p p s remap
+
+# -------------------- RELAX AGAIN AT 0 Pa -------------------------
+fix             npt_zero all npt temp 1500.0 1500.0 0.1 x 0.0 0.0 1.0 y 0.0 0.0 1.0
+thermo          500
+run             10000
+
+unfix           npt_zero
+
+# -------------------- FINAL NVT: METASTABLE STRUCTURE -------------------------
+fix             final_nvt all nvt temp 1500.0 1500.0 0.1
+thermo          500
+run             10000
+
+unfix           final_nvt
+
+# -------------------- FINAL OUTPUT -------------------------
+print "All done!!"
