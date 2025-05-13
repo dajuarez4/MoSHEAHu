@@ -3,6 +3,13 @@
 **MoSHEAHu** stands for **Most Stable High Entropy Alloy (HEA) Hunting**. This framework is a lightweight project designed to explore HEAs with the most stable crystal structures.
 
 ---
+## Libraries
+- ASE
+- numpy
+- matplotlib
+- 
+___
+
 
 ## 📚 Overview  
 
