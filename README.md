@@ -7,7 +7,9 @@
 - ASE
 - numpy
 - matplotlib
-- 
+- string
+- random
+- Os
 ___
 
 
