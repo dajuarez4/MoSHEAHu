@@ -13,7 +13,7 @@
 ___
 
 
-## 📚 Overview  
+##  Overview  
 
 The workflow starts by generating a pool of randomized atomic configurations, placing five different atom types into an "egg carton" arrangement. This "egg carton" can represent the following crystal structures:  
 
@@ -25,7 +25,7 @@ In this example, the system under study is **HfNbTaTiZr** using a **BCC** struct
 
 ---
 
-## 📈 Warren-Cowley Parameter Calculation  
+##  Warren-Cowley Parameter Calculation  
 
 The Warren-Cowley short-range order (SRO) parameters are calculated using the `WarrenCowley.cpp` code, located in the `executables` directory. Compile it using:
 
@@ -42,7 +42,7 @@ Unlike conventional methods that analyze only nearest neighbors, this code consi
 
 ---
 
-## 🛠️ Simulation Pipeline  
+##  Simulation Pipeline  
 
 1. Randomized configurations are saved as `.data` files (e.g., `HfNbTaTiZr.data`) to be read by the LAMMPS input script.  
 2. A common LAMMPS input file is copied to each simulation directory, designed to calculate the **total energy** for **1000** and **2000** timesteps.  
@@ -52,7 +52,7 @@ Unlike conventional methods that analyze only nearest neighbors, this code consi
 
 ---
 
-## 📊 Analysis  
+##  Analysis  
 
 - The final output includes a plot of **Energy vs. Configuration ID**, which helps identify the most stable configurations.  
 - The behavior of the Warren-Cowley parameters is analyzed for these stable systems, providing insight into their local atomic arrangements and stability mechanisms.  
