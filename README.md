@@ -1,3 +1,4 @@
+
 # MoSHEAHu
 
 MoSHEAHu is a workflow for generating chemically disordered high-entropy alloy structures, running atomistic simulations, and analyzing Warren-Cowley short-range order metrics with Python-based postprocessing.
